@@ -1,15 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
+    android:background="@color/white"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent">
     <Button
         android:id="@+id/BackButton"
         android:text="Back"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp" />
     <ListView
-        android:id="@+id/TaskList"
+        android:id="@+id/VesselDetailList"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent" />
+        android:layout_height="fill_parent"
+        android:layout_marginTop="10dp"
+        android:textColor="@color/black" />
 </LinearLayout>

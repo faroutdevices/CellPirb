@@ -1,17 +1,13 @@
 using System;
 using System.Linq;
 using System.Collections.Generic;
-
 using Mono.Data.Sqlite;
 using System.IO;
 using System.Data;
 
-namespace Tasky.Core
+namespace Epirb.Core
 {
-	/// <summary>
-	/// TaskDatabase uses ADO.NET to create the [Items] table and create,read,update,delete data
-	/// </summary>
-	public class TaskDatabase 
+	public class VesselDetailDatabase 
 	{
 		static object locker = new object ();
 
@@ -19,11 +15,7 @@ namespace Tasky.Core
 
 		public string path;
 
-		/// <summary>
-		/// Initializes a new instance of the <see cref="Tasky.DL.TaskDatabase"/> TaskDatabase. 
-		/// if the database doesn't exist, it will create the database and all the tables.
-		/// </summary>
-		public TaskDatabase (string dbPath) 
+		public VesselDetailDatabase (string dbPath) 
 		{
 			var output = "";
 			path = dbPath;
@@ -35,7 +27,7 @@ namespace Tasky.Core
 
 				connection.Open ();
 				var commands = new[] {
-					"CREATE TABLE [Items] (_id INTEGER PRIMARY KEY ASC, Name NTEXT, Notes NTEXT, Done INTEGER);"
+					"CREATE TABLE [Items] (_id INTEGER PRIMARY KEY ASC, Name NTEXT, Notes NTEXT);"
 				};
 				foreach (var command in commands) {
 					using (var c = connection.CreateCommand ()) {
@@ -47,66 +39,59 @@ namespace Tasky.Core
 				//Start Cj adding this here 6-22-2014
 				int r;
 				using (var command = connection.CreateCommand ()) {
-					command.CommandText = "INSERT INTO [Items] ([Name], [Notes], [Done]) VALUES (? ,?, ?)";
+					command.CommandText = "INSERT INTO [Items] ([Name], [Notes]) VALUES (? ,?)";
 					command.Parameters.Add (new SqliteParameter (DbType.String) { Value = "Contact #1" });
 					command.Parameters.Add (new SqliteParameter (DbType.String) { Value = "2067909610" });
-					command.Parameters.Add (new SqliteParameter (DbType.Int32) { Value = false });
 					r = command.ExecuteNonQuery ();
 				}
 
 				using (var command = connection.CreateCommand ()) {
-					command.CommandText = "INSERT INTO [Items] ([Name], [Notes], [Done]) VALUES (? ,?, ?)";
+					command.CommandText = "INSERT INTO [Items] ([Name], [Notes]) VALUES (? ,?)";
 					command.Parameters.Add (new SqliteParameter (DbType.String) { Value = "Contact #2" });
 					command.Parameters.Add (new SqliteParameter (DbType.String) { Value = "" });
-					command.Parameters.Add (new SqliteParameter (DbType.Int32) { Value = false });
+	
 					r = command.ExecuteNonQuery ();
 				}
 
 				using (var command = connection.CreateCommand ()) {
-					command.CommandText = "INSERT INTO [Items] ([Name], [Notes], [Done]) VALUES (? ,?, ?)";
+					command.CommandText = "INSERT INTO [Items] ([Name], [Notes]) VALUES (? ,?)";
 					command.Parameters.Add (new SqliteParameter (DbType.String) { Value = "Contact #3" });
 					command.Parameters.Add (new SqliteParameter (DbType.String) { Value = "" });
-					command.Parameters.Add (new SqliteParameter (DbType.Int32) { Value = false });
 					r = command.ExecuteNonQuery ();
 				}
 
 				using (var command = connection.CreateCommand ()) {
-					command.CommandText = "INSERT INTO [Items] ([Name], [Notes], [Done]) VALUES (? ,?, ?)";
+					command.CommandText = "INSERT INTO [Items] ([Name], [Notes]) VALUES (? ,?)";
 					command.Parameters.Add (new SqliteParameter (DbType.String) { Value = "Vessel Name" });
-					command.Parameters.Add (new SqliteParameter (DbType.String) { Value = "Yuan Fen" });
-					command.Parameters.Add (new SqliteParameter (DbType.Int32) { Value = false });
+					command.Parameters.Add (new SqliteParameter (DbType.String) { Value = "Test Name" });
 					r = command.ExecuteNonQuery ();
 				}
 
 				using (var command = connection.CreateCommand ()) {
-					command.CommandText = "INSERT INTO [Items] ([Name], [Notes], [Done]) VALUES (? ,?, ?)";
+					command.CommandText = "INSERT INTO [Items] ([Name], [Notes]) VALUES (? ,?)";
 					command.Parameters.Add (new SqliteParameter (DbType.String) { Value = "Type" });
-					command.Parameters.Add (new SqliteParameter (DbType.String) { Value = "Sailboat" });
-					command.Parameters.Add (new SqliteParameter (DbType.Int32) { Value = false });
+					command.Parameters.Add (new SqliteParameter (DbType.String) { Value = "Sailboat, Powerboat, other" });
 					r = command.ExecuteNonQuery ();
 				}
 
 				using (var command = connection.CreateCommand ()) {
-					command.CommandText = "INSERT INTO [Items] ([Name], [Notes], [Done]) VALUES (? ,?, ?)";
+					command.CommandText = "INSERT INTO [Items] ([Name], [Notes]) VALUES (? ,?)";
 					command.Parameters.Add (new SqliteParameter (DbType.String) { Value = "Length" });
-					command.Parameters.Add (new SqliteParameter (DbType.String) { Value = "28" });
-					command.Parameters.Add (new SqliteParameter (DbType.Int32) { Value = false });
+					command.Parameters.Add (new SqliteParameter (DbType.String) { Value = "0" });
 					r = command.ExecuteNonQuery ();
 				}
 
 				using (var command = connection.CreateCommand ()) {
-					command.CommandText = "INSERT INTO [Items] ([Name], [Notes], [Done]) VALUES (? ,?, ?)";
+					command.CommandText = "INSERT INTO [Items] ([Name], [Notes]) VALUES (? ,?)";
 					command.Parameters.Add (new SqliteParameter (DbType.String) { Value = "Color" });
-					command.Parameters.Add (new SqliteParameter (DbType.String) { Value = "Blue" });
-					command.Parameters.Add (new SqliteParameter (DbType.Int32) { Value = false });
+					command.Parameters.Add (new SqliteParameter (DbType.String) { Value = "Test Color" });
 					r = command.ExecuteNonQuery ();
 				}
 
 				using (var command = connection.CreateCommand ()) {
-					command.CommandText = "INSERT INTO [Items] ([Name], [Notes], [Done]) VALUES (? ,?, ?)";
+					command.CommandText = "INSERT INTO [Items] ([Name], [Notes]) VALUES (? ,?)";
 					command.Parameters.Add (new SqliteParameter (DbType.String) { Value = "Passengers" });
-					command.Parameters.Add (new SqliteParameter (DbType.String) { Value = "1" });
-					command.Parameters.Add (new SqliteParameter (DbType.Int32) { Value = false });
+					command.Parameters.Add (new SqliteParameter (DbType.String) { Value = "0" });
 					r = command.ExecuteNonQuery ();
 				}
 
@@ -117,26 +102,25 @@ namespace Tasky.Core
 			}
 			Console.WriteLine (output);
 		}
-
-		/// <summary>Convert from DataReader to Task object</summary>
-		Task FromReader (SqliteDataReader r) {
-			var t = new Task ();
+			
+		VesselDetail FromReader (SqliteDataReader r) {
+			var t = new VesselDetail ();
 			t.ID = Convert.ToInt32 (r ["_id"]);
 			t.Name = r ["Name"].ToString ();
 			t.Notes = r ["Notes"].ToString ();
-			t.Done = Convert.ToInt32 (r ["Done"]) == 1 ? true : false;
+			t.Concat = r ["Name"].ToString () + ": " +  r ["Notes"].ToString ();
 			return t;
 		}
 
-		public IEnumerable<Task> GetItems ()
+		public IEnumerable<VesselDetail> GetItems ()
 		{
-			var tl = new List<Task> ();
+			var tl = new List<VesselDetail> ();
 
 			lock (locker) {
 				connection = new SqliteConnection ("Data Source=" + path);
 				connection.Open ();
 				using (var contents = connection.CreateCommand ()) {
-					contents.CommandText = "SELECT [_id], [Name], [Notes], [Done] from [Items]";
+					contents.CommandText = "SELECT [_id], [Name], [Notes] from [Items]";
 					var r = contents.ExecuteReader ();
 					while (r.Read ()) {
 						tl.Add (FromReader(r));
@@ -147,14 +131,14 @@ namespace Tasky.Core
 			return tl;
 		}
 
-		public Task GetItem (int id) 
+		public VesselDetail GetItem (int id) 
 		{
-			var t = new Task ();
+			var t = new VesselDetail ();
 			lock (locker) {
 				connection = new SqliteConnection ("Data Source=" + path);
 				connection.Open ();
 				using (var command = connection.CreateCommand ()) {
-					command.CommandText = "SELECT [_id], [Name], [Notes], [Done] from [Items] WHERE [_id] = ?";
+					command.CommandText = "SELECT [_id], [Name], [Notes] from [Items] WHERE [_id] = ?";
 					command.Parameters.Add (new SqliteParameter (DbType.Int32) { Value = id });
 					var r = command.ExecuteReader ();
 					while (r.Read ()) {
@@ -167,7 +151,7 @@ namespace Tasky.Core
 			return t;
 		}
 
-		public int SaveItem (Task item) 
+		public int SaveItem (VesselDetail item) 
 		{
 			int r;
 			lock (locker) {
@@ -175,10 +159,9 @@ namespace Tasky.Core
 					connection = new SqliteConnection ("Data Source=" + path);
 					connection.Open ();
 					using (var command = connection.CreateCommand ()) {
-						command.CommandText = "UPDATE [Items] SET [Name] = ?, [Notes] = ?, [Done] = ? WHERE [_id] = ?;";
+						command.CommandText = "UPDATE [Items] SET [Name] = ?, [Notes] = ? WHERE [_id] = ?;";
 						command.Parameters.Add (new SqliteParameter (DbType.String) { Value = item.Name });
 						command.Parameters.Add (new SqliteParameter (DbType.String) { Value = item.Notes });
-						command.Parameters.Add (new SqliteParameter (DbType.Int32) { Value = item.Done });
 						command.Parameters.Add (new SqliteParameter (DbType.Int32) { Value = item.ID });
 						r = command.ExecuteNonQuery ();
 					}
@@ -188,10 +171,9 @@ namespace Tasky.Core
 					connection = new SqliteConnection ("Data Source=" + path);
 					connection.Open ();
 					using (var command = connection.CreateCommand ()) {
-						command.CommandText = "INSERT INTO [Items] ([Name], [Notes], [Done]) VALUES (? ,?, ?)";
+						command.CommandText = "INSERT INTO [Items] ([Name], [Notes]) VALUES (? ,?)";
 						command.Parameters.Add (new SqliteParameter (DbType.String) { Value = item.Name });
 						command.Parameters.Add (new SqliteParameter (DbType.String) { Value = item.Notes });
-						command.Parameters.Add (new SqliteParameter (DbType.Int32) { Value = item.Done });
 						r = command.ExecuteNonQuery ();
 					}
 					connection.Close ();
@@ -199,22 +181,6 @@ namespace Tasky.Core
 				}
 
 			}
-		}
-
-		public int DeleteItem(int id) 
-		{
-			lock (locker) {
-				int r;
-				connection = new SqliteConnection ("Data Source=" + path);
-				connection.Open ();
-				using (var command = connection.CreateCommand ()) {
-					command.CommandText = "DELETE FROM [Items] WHERE [_id] = ?;";
-					command.Parameters.Add (new SqliteParameter (DbType.Int32) { Value = id});
-					r = command.ExecuteNonQuery ();
-				}
-				connection.Close ();
-				return r;
-			}
-		}
+		}			
 	}
 }

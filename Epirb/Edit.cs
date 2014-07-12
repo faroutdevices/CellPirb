@@ -3,43 +3,37 @@ using Android.App;
 using Android.Content;
 using Android.OS;
 using Android.Widget;
-using Tasky.Core;
+using Epirb.Core;
 
 namespace Epirb {
-	/// <summary>
-	/// Main ListView screen displays a list of tasks, plus an [Add] button
-	/// </summary>
-	[Activity (Label = "Edit Info",  Icon="@drawable/ic_launcher")]			
+
+	[Activity (Label = "Tap a Line to Edit",  Icon="@drawable/ic_launcher")]			
 	public class Edit : Activity {
-		TaskListAdapter taskList;
-		IList<Task> tasks;
+		VesselDetailListAdapter detailList;
+		IList<VesselDetail> details;
 		Button backButton;
-		ListView taskListView;
+		ListView detailListView;
 		
 		protected override void OnCreate (Bundle bundle)
 		{
 			base.OnCreate (bundle);
 
-			// set our layout to be the home screen
 			SetContentView(Resource.Layout.Edit);
 
-			//Find our controls
-			taskListView = FindViewById<ListView> (Resource.Id.TaskList);
+			detailListView = FindViewById<ListView> (Resource.Id.VesselDetailList);
 			backButton = FindViewById<Button> (Resource.Id.BackButton);
 
-			// wire up add task button handler
 			if(backButton != null) {
 				backButton.Click += (sender, e) => {
 					StartActivity(typeof(Main));
 				};
 			}
-			
-			// wire up task click handler
-			if(taskListView != null) {
-				taskListView.ItemClick += (object sender, AdapterView.ItemClickEventArgs e) => {
-					var taskDetails = new Intent (this, typeof (TaskDetailsScreen));
-					taskDetails.PutExtra ("TaskID", tasks[e.Position].ID);
-					StartActivity (taskDetails);
+
+			if(detailListView != null) {
+				detailListView.ItemClick += (object sender, AdapterView.ItemClickEventArgs e) => {
+					var detailDetails = new Intent (this, typeof (VesselDetailDetailsScreen));
+					detailDetails.PutExtra ("VesselDetailID", details[e.Position].ID);
+					StartActivity (detailDetails);
 				};
 			}
 		}
@@ -48,13 +42,9 @@ namespace Epirb {
 		{
 			base.OnResume ();
 
-			tasks = TaskManager.GetTasks();
-			
-			// create our adapter
-			taskList = new TaskListAdapter(this, tasks);
-
-			//Hook up our adapter to our ListView
-			taskListView.Adapter = taskList;
+			details = VesselDetailManager.GetVesselDetails();
+			detailList = new VesselDetailListAdapter(this, details);
+			detailListView.Adapter = detailList;
 		}
 	}
 }

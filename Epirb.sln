@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Epirb", "Epirb\Epirb.csproj", "{B6DB4B7A-B537-46FC-B2EA-E52158945D12}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tasky.Core.Android", "Tasky.Core\Tasky.Core.Android.csproj", "{508E0D21-01E5-4A8C-A09F-AC121EDADEB8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Epirb.Core.Android", "Tasky.Core\Epirb.Core.Android.csproj", "{508E0D21-01E5-4A8C-A09F-AC121EDADEB8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -2,11 +2,12 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="fill_parent"
+    android:background="@color/white"
     android:layout_height="fill_parent">
     <TextView
         android:layout_width="fill_parent"
         android:text=""
-        android:layout_height="25dip"
+        android:layout_height="20dip"
         android:id="@+id/spacer" />
     <Button
         android:background="@drawable/red_button"
@@ -17,24 +18,34 @@
         android:text="Request Assistance" />
     <TextView
         android:layout_width="fill_parent"
+        android:layout_height="15dip"
+        android:layout_marginLeft="5dp"
         android:text=""
-        android:layout_height="20dip"
         android:id="@+id/spacer2" />
     <TextView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:text="Send message to:"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        android:id="@+id/textHeader" />
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
         android:text=":"
+        android:textColor="@color/black"
+        android:textSize="17sp"
         android:id="@+id/contacts" />
     <TextView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
         android:text=""
+        android:textColor="@color/black"
+        android:textSize="17sp"
         android:id="@+id/sms_message_text1" />
-    <TextView
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text=""
-        android:id="@+id/sms_message_text2" />
     <Button
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"

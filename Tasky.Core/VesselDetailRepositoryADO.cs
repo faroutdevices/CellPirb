@@ -2,24 +2,22 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 
-namespace Tasky.Core {
-	public class TaskRepositoryADO {
-		TaskDatabase db = null;
+namespace Epirb.Core {
+	public class VesselDetailRepositoryADO {
+		VesselDetailDatabase db = null;
 		protected static string dbLocation;		
-		protected static TaskRepositoryADO me;		
+		protected static VesselDetailRepositoryADO me;		
 
-		static TaskRepositoryADO ()
+		static VesselDetailRepositoryADO ()
 		{
-			me = new TaskRepositoryADO();
+			me = new VesselDetailRepositoryADO();
 		}
 
-		protected TaskRepositoryADO ()
+		protected VesselDetailRepositoryADO ()
 		{
-			// set the db location
 			dbLocation = DatabaseFilePath;
 
-			// instantiate the database	
-			db = new TaskDatabase(dbLocation);
+			db = new VesselDetailDatabase(dbLocation);
 		}
 
 		public static string DatabaseFilePath {
@@ -51,25 +49,21 @@ namespace Tasky.Core {
 			}
 		}
 
-		public static Task GetTask(int id)
+		public static VesselDetail GetVesselDetail(int id)
 		{
 			return me.db.GetItem(id);
 		}
 
-		public static IEnumerable<Task> GetTasks ()
+		public static IEnumerable<VesselDetail> GetVesselDetails ()
 		{
 			return me.db.GetItems();
 		}
 
-		public static int SaveTask (Task item)
+		public static int SaveVesselDetail (VesselDetail item)
 		{
 			return me.db.SaveItem(item);
 		}
-
-		public static int DeleteTask(int id)
-		{
-			return me.db.DeleteItem(id);
-		}
+			
 	}
 }
 

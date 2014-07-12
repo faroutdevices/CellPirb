@@ -2,64 +2,54 @@ using Android.App;
 using Android.Content;
 using Android.OS;
 using Android.Widget;
-using Tasky.Core;
-//using TaskyAndroid;
+using Epirb.Core;
 
 namespace Epirb {
-	/// <summary>
-	/// View/edit a Task
-	/// </summary>
-	[Activity (Label = "TaskDetailsScreen")]			
-	public class TaskDetailsScreen : Activity {
-		Task task = new Task();
-		Button cancelDeleteButton;
+
+	[Activity (Label = "Edit Info")]			
+	public class VesselDetailDetailsScreen : Activity {
+		VesselDetail detail = new VesselDetail();
+		Button cancelButton;
 		EditText notesTextEdit;
-		EditText nameTextEdit;
+		TextView nameTextEdit;
 		Button saveButton;
 
 		protected override void OnCreate (Bundle bundle)
 		{
 			base.OnCreate (bundle);
 			
-			int taskID = Intent.GetIntExtra("TaskID", 0);
-			if(taskID > 0) {
-				task = TaskManager.GetTask(taskID);
+			int detailID = Intent.GetIntExtra("VesselDetailID", 0);
+			if(detailID > 0) {
+				detail = VesselDetailManager.GetVesselDetail(detailID);
 			}
-			
-			// set our layout to be the home screen
-			SetContentView(Resource.Layout.TaskDetails);
-			nameTextEdit = FindViewById<EditText>(Resource.Id.NameText);
-			notesTextEdit = FindViewById<EditText>(Resource.Id.NotesText);
-			saveButton = FindViewById<Button>(Resource.Id.SaveButton);
-			
-			// find all our controls
-			cancelDeleteButton = FindViewById<Button>(Resource.Id.CancelDeleteButton);
-			
-			// set the cancel delete based on whether or not it's an existing task
-			cancelDeleteButton.Text = (task.ID == 0 ? "Cancel" : "Delete");
-			
-			nameTextEdit.Text = task.Name; 
-			notesTextEdit.Text = task.Notes;
 
-			// button clicks 
-			cancelDeleteButton.Click += (sender, e) => { CancelDelete(); };
+			SetContentView(Resource.Layout.VesselDetailDetails);
+			nameTextEdit = FindViewById<TextView>(Resource.Id.NameText);
+			notesTextEdit = FindViewById<EditText>(Resource.Id.NotesText);
+
+			saveButton = FindViewById<Button>(Resource.Id.SaveButton);
+
+			cancelButton = FindViewById<Button>(Resource.Id.CancelButton);
+
+			nameTextEdit.Text = detail.Name; 
+			notesTextEdit.Text = detail.Notes;
+
+			cancelButton.Click += (sender, e) => { Cancel(); };
 			saveButton.Click += (sender, e) => { Save(); };
 		}
 
 		void Save()
 		{
-			task.Name = nameTextEdit.Text;
-			task.Notes = notesTextEdit.Text;
-			TaskManager.SaveTask(task);
+			detail.Name = nameTextEdit.Text;
+			detail.Notes = notesTextEdit.Text;
+			VesselDetailManager.SaveVesselDetail(detail);
 			Finish();
 		}
-		
-		void CancelDelete()
+
+		void Cancel()
 		{
-			if (task.ID != 0) {
-				TaskManager.DeleteTask(task.ID);
-			}
 			Finish();
 		}
+
 	}
 }

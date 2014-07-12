@@ -43,9 +43,9 @@
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
   <ItemGroup />
   <ItemGroup>
-    <Compile Include="Task.cs" />
-    <Compile Include="TaskManager.cs" />
-    <Compile Include="TaskDatabaseADO.cs" />
-    <Compile Include="TaskRepositoryADO.cs" />
+    <Compile Include="VesselDetail.cs" />
+    <Compile Include="VesselDetailManager.cs" />
+    <Compile Include="VesselDetailRepositoryADO.cs" />
+    <Compile Include="VesselDetailDatabaseADO.cs" />
   </ItemGroup>
 </Project>

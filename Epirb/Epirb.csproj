@@ -43,6 +43,9 @@
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
     <Reference Include="Mono.Android" />
+    <Reference Include="Mindscape.Raygun4Net.Xamarin.Android">
+      <HintPath>..\Components\raygun4net-2.0.6\lib\android\Mindscape.Raygun4Net.Xamarin.Android.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Resources\Resource.designer.cs" />
@@ -63,19 +66,25 @@
     <AndroidResource Include="Resources\drawable\Icon.png" />
     <AndroidResource Include="Resources\drawable\ic_launcher.png" />
     <AndroidResource Include="Resources\layout\Edit.axml" />
-    <AndroidResource Include="Resources\layout\TaskDetails.axml" />
-    <AndroidResource Include="Resources\layout\TaskListItem.axml" />
     <AndroidResource Include="Resources\drawable\red_button.xml" />
     <AndroidResource Include="Resources\values\styles.xml" />
+    <AndroidResource Include="Resources\layout\VesselDetailListItem.axml" />
+    <AndroidResource Include="Resources\layout\VesselDetailDetails.axml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
   <ItemGroup>
-    <ProjectReference Include="..\Tasky.Core\Tasky.Core.Android.csproj">
+    <ProjectReference Include="..\Tasky.Core\Epirb.Core.Android.csproj">
       <Project>{508E0D21-01E5-4A8C-A09F-AC121EDADEB8}</Project>
-      <Name>Tasky.Core.Android</Name>
+      <Name>Epirb.Core.Android</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Adapters\" />
+  </ItemGroup>
+  <ItemGroup>
+    <XamarinComponentReference Include="raygun4net">
+      <Version>2.0.6</Version>
+      <Visible>False</Visible>
+    </XamarinComponentReference>
   </ItemGroup>
 </Project>

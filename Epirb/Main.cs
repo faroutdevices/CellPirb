@@ -10,42 +10,44 @@ using Android.Widget;
 using Android.OS;
 using Android.Locations;
 using Android.Telephony;
-using Tasky.Core;
+using Epirb.Core;
+//using Mindscape.Raygun4Net;
 
 namespace Epirb
 {
-	[Activity (Label = "Epirb", MainLauncher = true)]
+	[Activity (Label = "CellPIRB", MainLauncher = true)]
 	public class Main : Activity, ILocationListener
 	{
 		TextView _contacts;
 		TextView _smsMessageText1;
-		TextView _smsMessageText2;
+		//TextView _smsMessageText2;
 		Location _currentLocation;
 		LocationManager _locationManager;
 		String _locationProvider;
 		Button _editMyInfoButton;
-		ListView taskListView;
-		IList<Task> tasks;
+		ListView detailListView;
+		IList<VesselDetail> details;
 
 		protected override void OnCreate (Bundle bundle)
 		{
+			//RaygunClient.Attach("Nw6oiU/EsZypSRkoYWy5kA==");
+
 			base.OnCreate(bundle);
 			SetContentView(Resource.Layout.Main);
 			_smsMessageText1 = FindViewById<TextView>(Resource.Id.sms_message_text1);
-			_smsMessageText2 = FindViewById<TextView>(Resource.Id.sms_message_text2);
+			//_smsMessageText2 = FindViewById<TextView>(Resource.Id.sms_message_text2);
 			_contacts = FindViewById<TextView>(Resource.Id.contacts);
 			_editMyInfoButton = FindViewById<Button> (Resource.Id.edit_my_info_button);
-			taskListView = FindViewById<ListView> (Resource.Id.TaskList);
+			detailListView = FindViewById<ListView> (Resource.Id.VesselDetailList);
 
 			FindViewById<TextView>(Resource.Id.get_help_button).Click += HelpButton_OnClick;
 
-			// wire up add edit button handler
 				if(_editMyInfoButton != null) {
 					_editMyInfoButton.Click += (sender, e) => {
 					StartActivity(typeof(Edit));
 					};
 				}
-				
+					
 			InitializeLocationManager();
 		}
 
@@ -85,16 +87,16 @@ namespace Epirb
 
 		//async void HelpButton_OnClick(object sender, EventArgs eventArgs)
 		private void HelpButton_OnClick(object sender, EventArgs eventArgs)
-		{	
-			tasks = TaskManager.GetTasks();
-			string contact1 = tasks [0].Notes.ToString ();
-			string contact2 = tasks [1].Notes.ToString ();
-			string contact3 = tasks [2].Notes.ToString ();
-			string boatname = tasks [3].Notes.ToString ();
-			string boattype = tasks [4].Notes.ToString ();
-			string boatlength = tasks [5].Notes.ToString ();
-			string boatcolor = tasks [6].Notes.ToString ();
-			string passengers = tasks [7].Notes.ToString ();
+		{			
+			details = VesselDetailManager.GetVesselDetails();
+			string contact1 = details [0].Notes.ToString ();
+			string contact2 = details [1].Notes.ToString ();
+			string contact3 = details [2].Notes.ToString ();
+			string boatname = details [3].Notes.ToString ();
+			string boattype = details [4].Notes.ToString ();
+			string boatlength = details [5].Notes.ToString ();
+			string boatcolor = details [6].Notes.ToString ();
+			string passengers = details [7].Notes.ToString ();
 
 			string _Latitude = String.Empty;
 			string _Longitude = String.Empty;
@@ -121,7 +123,6 @@ namespace Epirb
 			_smsMessage2.Append ("Passengers: " + passengers).AppendLine ();
 
 			//test for less than 140 characters!!!
-
 			if (contact1.Length > 7) {
 				SmsManager.Default.SendTextMessage (contact1, null, _smsMessage1.ToString (), null, null);
 				SmsManager.Default.SendTextMessage (contact1, null, _smsMessage2.ToString (), null, null);
@@ -140,7 +141,7 @@ namespace Epirb
 			_smsMessageText1.Text = "Help SMS was sent successfully!!";
 
 			_contacts.Text = string.Empty;
-			_smsMessageText2.Text = string.Empty;
+			//_smsMessageText2.Text = string.Empty;
 		}			
 
 		public void OnLocationChanged(Location location)
@@ -167,15 +168,15 @@ namespace Epirb
 
 		private void SetContactText(Location location)
 		{
-			tasks = TaskManager.GetTasks();
-			string contact1 = tasks [0].Notes.ToString ();
-			string contact2 = tasks [1].Notes.ToString ();
-			string contact3 = tasks [2].Notes.ToString ();
-			string boatname = tasks [3].Notes.ToString ();
-			string boattype = tasks [4].Notes.ToString ();
-			string boatlength = tasks [5].Notes.ToString ();
-			string boatcolor = tasks [6].Notes.ToString ();
-			string passengers = tasks [7].Notes.ToString ();
+			details = VesselDetailManager.GetVesselDetails();
+			string contact1 = details [0].Notes.ToString ();
+			string contact2 = details [1].Notes.ToString ();
+			string contact3 = details [2].Notes.ToString ();
+			string boatname = details [3].Notes.ToString ();
+			string boattype = details [4].Notes.ToString ();
+			string boatlength = details [5].Notes.ToString ();
+			string boatcolor = details [6].Notes.ToString ();
+			string passengers = details [7].Notes.ToString ();
 
 			_currentLocation = location;
 
@@ -199,21 +200,26 @@ namespace Epirb
 			_contactsText.Append ("Contact 3: " + contact3).AppendLine ();
 							
 			StringBuilder _smsMessage1 = new StringBuilder();
-			_smsMessage1.Append ("Vessel in distress at:").AppendLine ();
-			_smsMessage1.Append ("Lat: " + _Latitude).AppendLine ();
-			_smsMessage1.Append ("Long: " + _Longitude).AppendLine ();
-			_smsMessage1.Append ("Call 911 for Coast Guard").AppendLine ();
+			//_smsMessage1.Append ("Vessel in distress:").AppendLine ();
+			_smsMessage1.Append ("Vessel Name: " + boatname).AppendLine ();
+			_smsMessage1.Append ("Latitude: " + _Latitude).AppendLine ();
+			_smsMessage1.Append ("Longitude: " + _Longitude).AppendLine ();
+
 
 			StringBuilder _smsMessage2 = new StringBuilder();
-			_smsMessage2.Append ("Vessel Name: " + boatname).AppendLine ();
+
 			_smsMessage2.Append ("Type: " + boattype).AppendLine ();
 			_smsMessage2.Append ("Length: " + boatlength).AppendLine ();
 			_smsMessage2.Append ("Color: " + boatcolor).AppendLine ();
 			_smsMessage2.Append ("Passengers: " + passengers).AppendLine ();
+			_smsMessage2.Append ("Call 911 for Coast Guard").AppendLine ();
 
 			_contacts.Text = _contactsText.ToString ();
+
+			_smsMessage1.Append (_smsMessage2);
+
 			_smsMessageText1.Text = _smsMessage1.ToString ();
-			_smsMessageText2.Text = _smsMessage2.ToString ();
+			//_smsMessageText2.Text = _smsMessage2.ToString ();
 		}
 	}
 }
