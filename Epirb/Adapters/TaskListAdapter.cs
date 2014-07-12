@@ -5,17 +5,17 @@ using Epirb.Core;
 
 namespace Epirb {
 
-	public class VesselDetailListAdapter : BaseAdapter<VesselDetail> {
+	public class DetailListAdapter : BaseAdapter<Detail> {
 		Activity context = null;
-		IList<VesselDetail> details = new List<VesselDetail>();
+		IList<Detail> details = new List<Detail>();
 		
-		public VesselDetailListAdapter (Activity context, IList<VesselDetail> details) : base ()
+		public DetailListAdapter (Activity context, IList<Detail> details) : base ()
 		{
 			this.context = context;
 			this.details = details;
 		}
 		
-		public override VesselDetail this[int position]
+		public override Detail this[int position]
 		{
 			get { return details[position]; }
 		}
@@ -40,18 +40,18 @@ namespace Epirb {
 			// will sound familiar to MonoTouch developers with UITableViewCell.DequeueReusableCell()
 			var view = (convertView ?? 
 					context.LayoutInflater.Inflate(
-					Resource.Layout.VesselDetailListItem, 
+					Resource.Layout.DetailListItem, 
 					parent, 
 					false)) as LinearLayout;
 
 			// Find references to each subview in the list item's view
-			var txtName = view.FindViewById<TextView>(Resource.Id.NameText);
-			var txtDescription = view.FindViewById<TextView>(Resource.Id.NotesText);
+			var txtName = view.FindViewById<TextView>(Resource.Id.DetailName);
+			var txtDescription = view.FindViewById<TextView>(Resource.Id.DetailValue);
 			var txtConcat = view.FindViewById<TextView>(Resource.Id.ConcatText);
 
 			//Assign item's values to the various subviews
 			txtName.SetText (item.Name, TextView.BufferType.Normal);
-			txtDescription.SetText (item.Notes, TextView.BufferType.Normal);
+			txtDescription.SetText (item.Value, TextView.BufferType.Normal);
 			txtConcat.SetText (item.Concat, TextView.BufferType.Normal);
 
 			return view;

@@ -51,4 +51,9 @@
         android:layout_height="wrap_content"
         android:id="@+id/edit_my_info_button"
         android:text="Edit My Information" />
+    <Button
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/back_to_main_screen"
+        android:text="Back to Main Screen" />
 </LinearLayout>

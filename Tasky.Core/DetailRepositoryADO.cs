@@ -3,21 +3,21 @@ using System.Collections.Generic;
 using System.IO;
 
 namespace Epirb.Core {
-	public class VesselDetailRepositoryADO {
-		VesselDetailDatabase db = null;
+	public class DetailRepositoryADO {
+		DetailDatabase db = null;
 		protected static string dbLocation;		
-		protected static VesselDetailRepositoryADO me;		
+		protected static DetailRepositoryADO me;		
 
-		static VesselDetailRepositoryADO ()
+		static DetailRepositoryADO ()
 		{
-			me = new VesselDetailRepositoryADO();
+			me = new DetailRepositoryADO();
 		}
 
-		protected VesselDetailRepositoryADO ()
+		protected DetailRepositoryADO ()
 		{
 			dbLocation = DatabaseFilePath;
 
-			db = new VesselDetailDatabase(dbLocation);
+			db = new DetailDatabase(dbLocation);
 		}
 
 		public static string DatabaseFilePath {
@@ -49,17 +49,17 @@ namespace Epirb.Core {
 			}
 		}
 
-		public static VesselDetail GetVesselDetail(int id)
+		public static Detail GetDetail(int id)
 		{
 			return me.db.GetItem(id);
 		}
 
-		public static IEnumerable<VesselDetail> GetVesselDetails ()
+		public static IEnumerable<Detail> GetDetails ()
 		{
 			return me.db.GetItems();
 		}
 
-		public static int SaveVesselDetail (VesselDetail item)
+		public static int SaveDetail (Detail item)
 		{
 			return me.db.SaveItem(item);
 		}

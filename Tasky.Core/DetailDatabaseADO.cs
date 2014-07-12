@@ -7,7 +7,7 @@ using System.Data;
 
 namespace Epirb.Core
 {
-	public class VesselDetailDatabase 
+	public class DetailDatabase 
 	{
 		static object locker = new object ();
 
@@ -15,7 +15,7 @@ namespace Epirb.Core
 
 		public string path;
 
-		public VesselDetailDatabase (string dbPath) 
+		public DetailDatabase (string dbPath) 
 		{
 			var output = "";
 			path = dbPath;
@@ -27,7 +27,7 @@ namespace Epirb.Core
 
 				connection.Open ();
 				var commands = new[] {
-					"CREATE TABLE [Items] (_id INTEGER PRIMARY KEY ASC, Name NTEXT, Notes NTEXT);"
+					"CREATE TABLE [Items] (_id INTEGER PRIMARY KEY ASC, DetailName NTEXT, DetailValue NTEXT);"
 				};
 				foreach (var command in commands) {
 					using (var c = connection.CreateCommand ()) {
@@ -39,14 +39,14 @@ namespace Epirb.Core
 				//Start Cj adding this here 6-22-2014
 				int r;
 				using (var command = connection.CreateCommand ()) {
-					command.CommandText = "INSERT INTO [Items] ([Name], [Notes]) VALUES (? ,?)";
+					command.CommandText = "INSERT INTO [Items] ([DetailName], [DetailValue]) VALUES (? ,?)";
 					command.Parameters.Add (new SqliteParameter (DbType.String) { Value = "Contact #1" });
 					command.Parameters.Add (new SqliteParameter (DbType.String) { Value = "2067909610" });
 					r = command.ExecuteNonQuery ();
 				}
 
 				using (var command = connection.CreateCommand ()) {
-					command.CommandText = "INSERT INTO [Items] ([Name], [Notes]) VALUES (? ,?)";
+					command.CommandText = "INSERT INTO [Items] ([DetailName], [DetailValue]) VALUES (? ,?)";
 					command.Parameters.Add (new SqliteParameter (DbType.String) { Value = "Contact #2" });
 					command.Parameters.Add (new SqliteParameter (DbType.String) { Value = "" });
 	
@@ -54,42 +54,42 @@ namespace Epirb.Core
 				}
 
 				using (var command = connection.CreateCommand ()) {
-					command.CommandText = "INSERT INTO [Items] ([Name], [Notes]) VALUES (? ,?)";
+					command.CommandText = "INSERT INTO [Items] ([DetailName], [DetailValue]) VALUES (? ,?)";
 					command.Parameters.Add (new SqliteParameter (DbType.String) { Value = "Contact #3" });
 					command.Parameters.Add (new SqliteParameter (DbType.String) { Value = "" });
 					r = command.ExecuteNonQuery ();
 				}
 
 				using (var command = connection.CreateCommand ()) {
-					command.CommandText = "INSERT INTO [Items] ([Name], [Notes]) VALUES (? ,?)";
+					command.CommandText = "INSERT INTO [Items] ([DetailName], [DetailValue]) VALUES (? ,?)";
 					command.Parameters.Add (new SqliteParameter (DbType.String) { Value = "Vessel Name" });
 					command.Parameters.Add (new SqliteParameter (DbType.String) { Value = "Test Name" });
 					r = command.ExecuteNonQuery ();
 				}
 
 				using (var command = connection.CreateCommand ()) {
-					command.CommandText = "INSERT INTO [Items] ([Name], [Notes]) VALUES (? ,?)";
+					command.CommandText = "INSERT INTO [Items] ([DetailName], [DetailValue]) VALUES (? ,?)";
 					command.Parameters.Add (new SqliteParameter (DbType.String) { Value = "Type" });
 					command.Parameters.Add (new SqliteParameter (DbType.String) { Value = "Sailboat, Powerboat, other" });
 					r = command.ExecuteNonQuery ();
 				}
 
 				using (var command = connection.CreateCommand ()) {
-					command.CommandText = "INSERT INTO [Items] ([Name], [Notes]) VALUES (? ,?)";
+					command.CommandText = "INSERT INTO [Items] ([DetailName], [DetailValue]) VALUES (? ,?)";
 					command.Parameters.Add (new SqliteParameter (DbType.String) { Value = "Length" });
 					command.Parameters.Add (new SqliteParameter (DbType.String) { Value = "0" });
 					r = command.ExecuteNonQuery ();
 				}
 
 				using (var command = connection.CreateCommand ()) {
-					command.CommandText = "INSERT INTO [Items] ([Name], [Notes]) VALUES (? ,?)";
+					command.CommandText = "INSERT INTO [Items] ([DetailName], [DetailValue]) VALUES (? ,?)";
 					command.Parameters.Add (new SqliteParameter (DbType.String) { Value = "Color" });
 					command.Parameters.Add (new SqliteParameter (DbType.String) { Value = "Test Color" });
 					r = command.ExecuteNonQuery ();
 				}
 
 				using (var command = connection.CreateCommand ()) {
-					command.CommandText = "INSERT INTO [Items] ([Name], [Notes]) VALUES (? ,?)";
+					command.CommandText = "INSERT INTO [Items] ([DetailName], [DetailValue]) VALUES (? ,?)";
 					command.Parameters.Add (new SqliteParameter (DbType.String) { Value = "Passengers" });
 					command.Parameters.Add (new SqliteParameter (DbType.String) { Value = "0" });
 					r = command.ExecuteNonQuery ();
@@ -103,24 +103,24 @@ namespace Epirb.Core
 			Console.WriteLine (output);
 		}
 			
-		VesselDetail FromReader (SqliteDataReader r) {
-			var t = new VesselDetail ();
+		Detail FromReader (SqliteDataReader r) {
+			var t = new Detail ();
 			t.ID = Convert.ToInt32 (r ["_id"]);
-			t.Name = r ["Name"].ToString ();
-			t.Notes = r ["Notes"].ToString ();
-			t.Concat = r ["Name"].ToString () + ": " +  r ["Notes"].ToString ();
+			t.Name = r ["DetailName"].ToString ();
+			t.Value = r ["DetailValue"].ToString ();
+			t.Concat = r ["DetailName"].ToString () + ": " +  r ["DetailValue"].ToString ();
 			return t;
 		}
 
-		public IEnumerable<VesselDetail> GetItems ()
+		public IEnumerable<Detail> GetItems ()
 		{
-			var tl = new List<VesselDetail> ();
+			var tl = new List<Detail> ();
 
 			lock (locker) {
 				connection = new SqliteConnection ("Data Source=" + path);
 				connection.Open ();
 				using (var contents = connection.CreateCommand ()) {
-					contents.CommandText = "SELECT [_id], [Name], [Notes] from [Items]";
+					contents.CommandText = "SELECT [_id], [DetailName], [DetailValue] from [Items]";
 					var r = contents.ExecuteReader ();
 					while (r.Read ()) {
 						tl.Add (FromReader(r));
@@ -131,14 +131,14 @@ namespace Epirb.Core
 			return tl;
 		}
 
-		public VesselDetail GetItem (int id) 
+		public Detail GetItem (int id) 
 		{
-			var t = new VesselDetail ();
+			var t = new Detail ();
 			lock (locker) {
 				connection = new SqliteConnection ("Data Source=" + path);
 				connection.Open ();
 				using (var command = connection.CreateCommand ()) {
-					command.CommandText = "SELECT [_id], [Name], [Notes] from [Items] WHERE [_id] = ?";
+					command.CommandText = "SELECT [_id], [DetailName], [DetailValue] from [Items] WHERE [_id] = ?";
 					command.Parameters.Add (new SqliteParameter (DbType.Int32) { Value = id });
 					var r = command.ExecuteReader ();
 					while (r.Read ()) {
@@ -151,7 +151,7 @@ namespace Epirb.Core
 			return t;
 		}
 
-		public int SaveItem (VesselDetail item) 
+		public int SaveItem (Detail item) 
 		{
 			int r;
 			lock (locker) {
@@ -159,9 +159,9 @@ namespace Epirb.Core
 					connection = new SqliteConnection ("Data Source=" + path);
 					connection.Open ();
 					using (var command = connection.CreateCommand ()) {
-						command.CommandText = "UPDATE [Items] SET [Name] = ?, [Notes] = ? WHERE [_id] = ?;";
+						command.CommandText = "UPDATE [Items] SET [DetailName] = ?, [DetailValue] = ? WHERE [_id] = ?;";
 						command.Parameters.Add (new SqliteParameter (DbType.String) { Value = item.Name });
-						command.Parameters.Add (new SqliteParameter (DbType.String) { Value = item.Notes });
+						command.Parameters.Add (new SqliteParameter (DbType.String) { Value = item.Value });
 						command.Parameters.Add (new SqliteParameter (DbType.Int32) { Value = item.ID });
 						r = command.ExecuteNonQuery ();
 					}
@@ -171,9 +171,9 @@ namespace Epirb.Core
 					connection = new SqliteConnection ("Data Source=" + path);
 					connection.Open ();
 					using (var command = connection.CreateCommand ()) {
-						command.CommandText = "INSERT INTO [Items] ([Name], [Notes]) VALUES (? ,?)";
+						command.CommandText = "INSERT INTO [Items] ([DetailName], [DetailValue]) VALUES (? ,?)";
 						command.Parameters.Add (new SqliteParameter (DbType.String) { Value = item.Name });
-						command.Parameters.Add (new SqliteParameter (DbType.String) { Value = item.Notes });
+						command.Parameters.Add (new SqliteParameter (DbType.String) { Value = item.Value });
 						r = command.ExecuteNonQuery ();
 					}
 					connection.Close ();

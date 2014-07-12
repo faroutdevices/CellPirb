@@ -20,13 +20,15 @@ namespace Epirb
 	{
 		TextView _contacts;
 		TextView _smsMessageText1;
-		//TextView _smsMessageText2;
+		TextView _textHeader;
 		Location _currentLocation;
 		LocationManager _locationManager;
 		String _locationProvider;
 		Button _editMyInfoButton;
+		Button _backtomainscreen;
 		ListView detailListView;
-		IList<VesselDetail> details;
+		IList<Detail> details;
+		bool latLongHasBeenSet = false;
 
 		protected override void OnCreate (Bundle bundle)
 		{
@@ -34,19 +36,28 @@ namespace Epirb
 
 			base.OnCreate(bundle);
 			SetContentView(Resource.Layout.Main);
+			_textHeader = FindViewById<TextView>(Resource.Id.textHeader);
 			_smsMessageText1 = FindViewById<TextView>(Resource.Id.sms_message_text1);
-			//_smsMessageText2 = FindViewById<TextView>(Resource.Id.sms_message_text2);
 			_contacts = FindViewById<TextView>(Resource.Id.contacts);
 			_editMyInfoButton = FindViewById<Button> (Resource.Id.edit_my_info_button);
-			detailListView = FindViewById<ListView> (Resource.Id.VesselDetailList);
+			_backtomainscreen = FindViewById<Button> (Resource.Id.back_to_main_screen);
+			detailListView = FindViewById<ListView> (Resource.Id.DetailList);
 
 			FindViewById<TextView>(Resource.Id.get_help_button).Click += HelpButton_OnClick;
 
 				if(_editMyInfoButton != null) {
 					_editMyInfoButton.Click += (sender, e) => {
-					StartActivity(typeof(Edit));
+					StartActivity(typeof(AllDetails));
 					};
 				}
+
+				if(_backtomainscreen != null) {
+					_backtomainscreen.Click += (sender, e) => {
+							StartActivity(typeof(Main));
+						};
+					}
+
+			_backtomainscreen.Visibility = ViewStates.Gone;
 					
 			InitializeLocationManager();
 		}
@@ -88,15 +99,15 @@ namespace Epirb
 		//async void HelpButton_OnClick(object sender, EventArgs eventArgs)
 		private void HelpButton_OnClick(object sender, EventArgs eventArgs)
 		{			
-			details = VesselDetailManager.GetVesselDetails();
-			string contact1 = details [0].Notes.ToString ();
-			string contact2 = details [1].Notes.ToString ();
-			string contact3 = details [2].Notes.ToString ();
-			string boatname = details [3].Notes.ToString ();
-			string boattype = details [4].Notes.ToString ();
-			string boatlength = details [5].Notes.ToString ();
-			string boatcolor = details [6].Notes.ToString ();
-			string passengers = details [7].Notes.ToString ();
+			details = DetailManager.GetDetails();
+			string contact1 = details [0].Value.ToString ();
+			string contact2 = details [1].Value.ToString ();
+			string contact3 = details [2].Value.ToString ();
+			string boatname = details [3].Value.ToString ();
+			string boattype = details [4].Value.ToString ();
+			string boatlength = details [5].Value.ToString ();
+			string boatcolor = details [6].Value.ToString ();
+			string passengers = details [7].Value.ToString ();
 
 			string _Latitude = String.Empty;
 			string _Longitude = String.Empty;
@@ -138,15 +149,16 @@ namespace Epirb
 				SmsManager.Default.SendTextMessage (contact3, null, _smsMessage2.ToString (), null, null);
 			}
 
-			_smsMessageText1.Text = "Help SMS was sent successfully!!";
-
+			_textHeader.Text = "Help SMS was sent successfully!!";
+			_smsMessageText1.Text = String.Empty;
 			_contacts.Text = string.Empty;
-			//_smsMessageText2.Text = string.Empty;
+			_editMyInfoButton.Visibility = ViewStates.Gone;
+			_backtomainscreen.Visibility = ViewStates.Visible;
 		}			
 
 		public void OnLocationChanged(Location location)
 		{
-//			_currentLocation = location;
+			_currentLocation = location;
 //			if (_currentLocation == null)
 //			{
 //				_locationText.Text = "Waiting to determine your location...";
@@ -156,8 +168,13 @@ namespace Epirb
 //				_locationText.Text = String.Format("{0},{1}", _currentLocation.Latitude, _currentLocation.Longitude);
 //			}
 
-			//TODO: maybe shouldn't update this so frequently!!!;
-			SetContactText (location);
+			//TODO: So we're just setting this once;
+			if (_currentLocation != null && latLongHasBeenSet == false) {
+
+				SetContactText (location);
+				latLongHasBeenSet = true;
+			}
+
 		}
 
 		public void OnProviderDisabled(string provider) {}
@@ -168,15 +185,15 @@ namespace Epirb
 
 		private void SetContactText(Location location)
 		{
-			details = VesselDetailManager.GetVesselDetails();
-			string contact1 = details [0].Notes.ToString ();
-			string contact2 = details [1].Notes.ToString ();
-			string contact3 = details [2].Notes.ToString ();
-			string boatname = details [3].Notes.ToString ();
-			string boattype = details [4].Notes.ToString ();
-			string boatlength = details [5].Notes.ToString ();
-			string boatcolor = details [6].Notes.ToString ();
-			string passengers = details [7].Notes.ToString ();
+			details = DetailManager.GetDetails();
+			string contact1 = details [0].Value.ToString ();
+			string contact2 = details [1].Value.ToString ();
+			string contact3 = details [2].Value.ToString ();
+			string boatname = details [3].Value.ToString ();
+			string boattype = details [4].Value.ToString ();
+			string boatlength = details [5].Value.ToString ();
+			string boatcolor = details [6].Value.ToString ();
+			string passengers = details [7].Value.ToString ();
 
 			_currentLocation = location;
 
@@ -219,7 +236,6 @@ namespace Epirb
 			_smsMessage1.Append (_smsMessage2);
 
 			_smsMessageText1.Text = _smsMessage1.ToString ();
-			//_smsMessageText2.Text = _smsMessage2.ToString ();
 		}
 	}
 }

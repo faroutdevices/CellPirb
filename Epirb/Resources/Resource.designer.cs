@@ -92,47 +92,50 @@ namespace Epirb
 			// aapt resource value: 0x7f070000
 			public const int BackButton = 2131165184;
 			
-			// aapt resource value: 0x7f07000c
-			public const int CancelButton = 2131165196;
-			
-			// aapt resource value: 0x7f07000e
-			public const int ConcatText = 2131165198;
-			
-			// aapt resource value: 0x7f070009
-			public const int NameText = 2131165193;
-			
-			// aapt resource value: 0x7f07000a
-			public const int NotesText = 2131165194;
-			
-			// aapt resource value: 0x7f07000b
-			public const int SaveButton = 2131165195;
-			
-			// aapt resource value: 0x7f070001
-			public const int VesselDetailList = 2131165185;
-			
-			// aapt resource value: 0x7f070006
-			public const int contacts = 2131165190;
-			
-			// aapt resource value: 0x7f070008
-			public const int edit_my_info_button = 2131165192;
+			// aapt resource value: 0x7f070007
+			public const int CancelButton = 2131165191;
 			
 			// aapt resource value: 0x7f070003
-			public const int get_help_button = 2131165187;
+			public const int ConcatText = 2131165187;
 			
-			// aapt resource value: 0x7f07000d
-			public const int lstItemVesselDetail = 2131165197;
-			
-			// aapt resource value: 0x7f070007
-			public const int sms_message_text1 = 2131165191;
-			
-			// aapt resource value: 0x7f070002
-			public const int spacer = 2131165186;
-			
-			// aapt resource value: 0x7f070004
-			public const int spacer2 = 2131165188;
+			// aapt resource value: 0x7f070001
+			public const int DetailList = 2131165185;
 			
 			// aapt resource value: 0x7f070005
-			public const int textHeader = 2131165189;
+			public const int DetailName = 2131165189;
+			
+			// aapt resource value: 0x7f070004
+			public const int DetailValue = 2131165188;
+			
+			// aapt resource value: 0x7f070006
+			public const int SaveButton = 2131165190;
+			
+			// aapt resource value: 0x7f07000f
+			public const int back_to_main_screen = 2131165199;
+			
+			// aapt resource value: 0x7f07000c
+			public const int contacts = 2131165196;
+			
+			// aapt resource value: 0x7f07000e
+			public const int edit_my_info_button = 2131165198;
+			
+			// aapt resource value: 0x7f070009
+			public const int get_help_button = 2131165193;
+			
+			// aapt resource value: 0x7f070002
+			public const int lstItemDetail = 2131165186;
+			
+			// aapt resource value: 0x7f07000d
+			public const int sms_message_text1 = 2131165197;
+			
+			// aapt resource value: 0x7f070008
+			public const int spacer = 2131165192;
+			
+			// aapt resource value: 0x7f07000a
+			public const int spacer2 = 2131165194;
+			
+			// aapt resource value: 0x7f07000b
+			public const int textHeader = 2131165195;
 			
 			static Id()
 			{
@@ -148,16 +151,16 @@ namespace Epirb
 		{
 			
 			// aapt resource value: 0x7f030000
-			public const int Edit = 2130903040;
+			public const int AllDetails = 2130903040;
 			
 			// aapt resource value: 0x7f030001
-			public const int Main = 2130903041;
+			public const int DetailListItem = 2130903041;
 			
 			// aapt resource value: 0x7f030002
-			public const int VesselDetailDetails = 2130903042;
+			public const int EditDetail = 2130903042;
 			
 			// aapt resource value: 0x7f030003
-			public const int VesselDetailListItem = 2130903043;
+			public const int Main = 2130903043;
 			
 			static Layout()
 			{

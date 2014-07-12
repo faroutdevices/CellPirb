@@ -7,10 +7,10 @@ using Epirb.Core;
 namespace Epirb {
 
 	[Activity (Label = "Edit Info")]			
-	public class VesselDetailDetailsScreen : Activity {
-		VesselDetail detail = new VesselDetail();
+	public class ViewAllDetails: Activity {
+		Detail detail = new Detail();
 		Button cancelButton;
-		EditText notesTextEdit;
+		EditText valueTextEdit;
 		TextView nameTextEdit;
 		Button saveButton;
 
@@ -18,21 +18,21 @@ namespace Epirb {
 		{
 			base.OnCreate (bundle);
 			
-			int detailID = Intent.GetIntExtra("VesselDetailID", 0);
+			int detailID = Intent.GetIntExtra("DetailID", 0);
 			if(detailID > 0) {
-				detail = VesselDetailManager.GetVesselDetail(detailID);
+				detail = DetailManager.GetDetail(detailID);
 			}
 
-			SetContentView(Resource.Layout.VesselDetailDetails);
-			nameTextEdit = FindViewById<TextView>(Resource.Id.NameText);
-			notesTextEdit = FindViewById<EditText>(Resource.Id.NotesText);
+			SetContentView(Resource.Layout.EditDetail);
+			nameTextEdit = FindViewById<TextView>(Resource.Id.DetailName);
+			valueTextEdit = FindViewById<EditText>(Resource.Id.DetailValue);
 
 			saveButton = FindViewById<Button>(Resource.Id.SaveButton);
 
 			cancelButton = FindViewById<Button>(Resource.Id.CancelButton);
 
 			nameTextEdit.Text = detail.Name; 
-			notesTextEdit.Text = detail.Notes;
+			valueTextEdit.Text = detail.Value;
 
 			cancelButton.Click += (sender, e) => { Cancel(); };
 			saveButton.Click += (sender, e) => { Save(); };
@@ -41,8 +41,8 @@ namespace Epirb {
 		void Save()
 		{
 			detail.Name = nameTextEdit.Text;
-			detail.Notes = notesTextEdit.Text;
-			VesselDetailManager.SaveVesselDetail(detail);
+			detail.Value = valueTextEdit.Text;
+			DetailManager.SaveDetail(detail);
 			Finish();
 		}
 
