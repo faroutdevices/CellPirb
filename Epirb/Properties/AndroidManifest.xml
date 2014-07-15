@@ -1,11 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionName="1.0.4" package="com.testbirb.mytestbirb" android:versionCode="4">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionName="1.0.8" package="com.cellpirb.mycellpirb" android:versionCode="8">
 	<uses-sdk android:minSdkVersion="17" />
-	<application android:icon="@drawable/ic_launcher" android:label="testbirb"></application>
+	<application android:icon="@drawable/ic_launcher" android:label="CellPIRB"></application>
 	<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 	<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 	<uses-permission android:name="android.permission.INTERNET" />
-	<uses-permission android:name="android.permission.READ_SMS" />
-	<uses-permission android:name="android.permission.RECEIVE_SMS" />
 	<uses-permission android:name="android.permission.SEND_SMS" />
 </manifest>

@@ -79,7 +79,10 @@ namespace Epirb
 
 		void InitializeLocationManager()
 		{
+			//_locationManager = GetSystemService (Context.LocationService) as LocationManager;
+
 			_locationManager = (LocationManager)GetSystemService(LocationService);
+
 			Criteria criteriaForLocationService = new Criteria
 			{
 				Accuracy = Accuracy.Fine
@@ -94,7 +97,76 @@ namespace Epirb
 			{
 				_locationProvider = String.Empty;
 			}
+				
+
+
+
 		}
+
+
+//		void InitializeLocationManager()
+//		{
+//
+//			try
+//			{
+//				locationManager = (LocationManager) mContext.getSystemService(LOCATION_SERVICE);
+//
+//				// getting GPS status
+//				isGPSEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+//
+//				// getting network status
+//				isNetworkEnabled = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+//
+//				if (!isGPSEnabled && !isNetworkEnabled)
+//				{
+//					// no network provider is enabled
+//				}
+//				else
+//				{
+//					this.canGetLocation = true;
+//					if (isNetworkEnabled)
+//					{
+//						locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, MIN_TIME_BW_UPDATES, MIN_DISTANCE_CHANGE_FOR_UPDATES, this);
+//						Log.d("Network", "Network");
+//						if (locationManager != null)
+//						{
+//							location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+//							if (location != null)
+//							{
+//								latitude = location.getLatitude();
+//								longitude = location.getLongitude();
+//							}
+//						}
+//					}
+//					// if GPS Enabled get lat/long using GPS Services
+//					if (isGPSEnabled)
+//					{
+//						if (location == null)
+//						{
+//							locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, MIN_TIME_BW_UPDATES, MIN_DISTANCE_CHANGE_FOR_UPDATES, this);
+//							Log.d("GPS Enabled", "GPS Enabled");
+//							if (locationManager != null)
+//							{
+//								location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+//								if (location != null)
+//								{
+//									latitude = location.getLatitude();
+//									longitude = location.getLongitude();
+//								}
+//							}
+//						}
+//					}
+//				}
+//
+//			}
+//			catch (Exception e)
+//			{
+//				e.printStackTrace();
+//			}
+//
+//			return location;
+//		}
+
 
 		//async void HelpButton_OnClick(object sender, EventArgs eventArgs)
 		private void HelpButton_OnClick(object sender, EventArgs eventArgs)
@@ -124,7 +196,7 @@ namespace Epirb
 			_smsMessage1.Append ("Vessel in distress at:").AppendLine ();
 			_smsMessage1.Append ("Lat: " + _Latitude).AppendLine ();
 			_smsMessage1.Append ("Long: " + _Longitude).AppendLine ();
-			_smsMessage1.Append ("Just testing, do NOT call Coast Guard").AppendLine ();
+			_smsMessage1.Append ("Contact me or call Coast Guard (911)").AppendLine ();
 
 			StringBuilder _smsMessage2 = new StringBuilder();
 			_smsMessage2.Append ("Vessel Name: " + boatname).AppendLine ();
@@ -149,7 +221,7 @@ namespace Epirb
 				SmsManager.Default.SendTextMessage (contact3, null, _smsMessage2.ToString (), null, null);
 			}
 
-			_textHeader.Text = "Help SMS was sent successfully!!";
+			_textHeader.Text = "Help SMS was sent successfully!";
 			_smsMessageText1.Text = String.Empty;
 			_contacts.Text = string.Empty;
 			_editMyInfoButton.Visibility = ViewStates.Gone;
@@ -158,23 +230,23 @@ namespace Epirb
 
 		public void OnLocationChanged(Location location)
 		{
-			_currentLocation = location;
-//			if (_currentLocation == null)
-//			{
-//				_locationText.Text = "Waiting to determine your location...";
+//			_currentLocation = location;
+////			if (_currentLocation == null)
+////			{
+////				_locationText.Text = "Waiting to determine your location...";
+////			}
+////			else
+////			{
+////				_locationText.Text = String.Format("{0},{1}", _currentLocation.Latitude, _currentLocation.Longitude);
+////			}
+//
+//			//TODO: So we're just setting this once;
+//			if (_currentLocation != null && latLongHasBeenSet == false) {
+//
+//				SetContactText (location);
+//				latLongHasBeenSet = true;
 //			}
-//			else
-//			{
-//				_locationText.Text = String.Format("{0},{1}", _currentLocation.Latitude, _currentLocation.Longitude);
-//			}
-
-			//TODO: So we're just setting this once;
-			if (_currentLocation != null && latLongHasBeenSet == false) {
-
-				SetContactText (location);
-				latLongHasBeenSet = true;
-			}
-
+//
 		}
 
 		public void OnProviderDisabled(string provider) {}
@@ -229,7 +301,7 @@ namespace Epirb
 			_smsMessage2.Append ("Length: " + boatlength).AppendLine ();
 			_smsMessage2.Append ("Color: " + boatcolor).AppendLine ();
 			_smsMessage2.Append ("Passengers: " + passengers).AppendLine ();
-			_smsMessage2.Append ("Call 911 for Coast Guard").AppendLine ();
+			_smsMessage2.Append ("Contact me or call Coast Guard (911)").AppendLine ();
 
 			_contacts.Text = _contactsText.ToString ();
 

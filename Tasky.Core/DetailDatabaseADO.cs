@@ -41,7 +41,7 @@ namespace Epirb.Core
 				using (var command = connection.CreateCommand ()) {
 					command.CommandText = "INSERT INTO [Items] ([DetailName], [DetailValue]) VALUES (? ,?)";
 					command.Parameters.Add (new SqliteParameter (DbType.String) { Value = "Contact #1" });
-					command.Parameters.Add (new SqliteParameter (DbType.String) { Value = "2067909610" });
+					command.Parameters.Add (new SqliteParameter (DbType.String) { Value = "" });
 					r = command.ExecuteNonQuery ();
 				}
 

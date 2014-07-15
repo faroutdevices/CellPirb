@@ -26,7 +26,6 @@ namespace Epirb
 		
 		public static void UpdateIdValues()
 		{
-			global::Mindscape.Raygun4Net.Xamarin.Android.Resource.String.library_name = global::Epirb.Resource.String.library_name;
 		}
 		
 		public partial class Attribute
@@ -71,10 +70,7 @@ namespace Epirb
 			public const int Icon = 2130837505;
 			
 			// aapt resource value: 0x7f020002
-			public const int monoandroidsplash = 2130837506;
-			
-			// aapt resource value: 0x7f020003
-			public const int red_button = 2130837507;
+			public const int red_button = 2130837506;
 			
 			static Drawable()
 			{
@@ -175,14 +171,11 @@ namespace Epirb
 		public partial class String
 		{
 			
-			// aapt resource value: 0x7f040002
-			public const int app_name = 2130968578;
-			
 			// aapt resource value: 0x7f040001
-			public const int hello = 2130968577;
+			public const int app_name = 2130968577;
 			
 			// aapt resource value: 0x7f040000
-			public const int library_name = 2130968576;
+			public const int hello = 2130968576;
 			
 			static String()
 			{
@@ -196,9 +189,6 @@ namespace Epirb
 		
 		public partial class Style
 		{
-			
-			// aapt resource value: 0x7f060001
-			public const int Mono_Android_Theme_Splash = 2131099649;
 			
 			// aapt resource value: 0x7f060000
 			public const int button_text = 2131099648;
