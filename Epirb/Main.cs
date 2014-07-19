@@ -58,6 +58,7 @@ namespace Epirb
 					}
 
 			_backtomainscreen.Visibility = ViewStates.Gone;
+			_editMyInfoButton.Visibility = ViewStates.Visible;
 					
 			InitializeLocationManager();
 		}
@@ -65,7 +66,7 @@ namespace Epirb
 		protected override void OnResume()
 		{
 			base.OnResume();
-			_locationManager.RequestLocationUpdates(_locationProvider, 0, 0, this);
+			_locationManager.RequestLocationUpdates(_locationProvider, 30 * 60 * 1000, 10, this);
 
 			//TODO: revisit
 			SetContactText (_currentLocation);
@@ -98,8 +99,8 @@ namespace Epirb
 				_locationProvider = String.Empty;
 			}
 				
-
-
+			//set to this so it works with Kitkat!!!!
+			_locationProvider = "gps";
 
 		}
 
@@ -230,23 +231,23 @@ namespace Epirb
 
 		public void OnLocationChanged(Location location)
 		{
-//			_currentLocation = location;
-////			if (_currentLocation == null)
-////			{
-////				_locationText.Text = "Waiting to determine your location...";
-////			}
-////			else
-////			{
-////				_locationText.Text = String.Format("{0},{1}", _currentLocation.Latitude, _currentLocation.Longitude);
-////			}
-//
-//			//TODO: So we're just setting this once;
-//			if (_currentLocation != null && latLongHasBeenSet == false) {
-//
-//				SetContactText (location);
-//				latLongHasBeenSet = true;
+			_currentLocation = location;
+//			if (_currentLocation == null)
+//			{
+//				_locationText.Text = "Waiting to determine your location...";
 //			}
-//
+//			else
+//			{
+//				_locationText.Text = String.Format("{0},{1}", _currentLocation.Latitude, _currentLocation.Longitude);
+//			}
+
+			//TODO: So we're just setting this once;
+			if (_currentLocation != null && latLongHasBeenSet == false) {
+
+				SetContactText (location);
+				latLongHasBeenSet = true;
+			}
+
 		}
 
 		public void OnProviderDisabled(string provider) {}

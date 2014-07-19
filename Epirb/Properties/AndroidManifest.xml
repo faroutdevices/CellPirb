@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionName="1.0.8" package="com.cellpirb.mycellpirb" android:versionCode="8">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionName="1.0.1" package="com.cellpirb.mycellbirb" android:versionCode="1">
 	<uses-sdk android:minSdkVersion="17" />
 	<application android:icon="@drawable/ic_launcher" android:label="CellPIRB"></application>
 	<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />

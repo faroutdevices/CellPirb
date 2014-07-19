@@ -63,14 +63,14 @@ namespace Epirb.Core
 				using (var command = connection.CreateCommand ()) {
 					command.CommandText = "INSERT INTO [Items] ([DetailName], [DetailValue]) VALUES (? ,?)";
 					command.Parameters.Add (new SqliteParameter (DbType.String) { Value = "Vessel Name" });
-					command.Parameters.Add (new SqliteParameter (DbType.String) { Value = "Test Name" });
+					command.Parameters.Add (new SqliteParameter (DbType.String) { Value = "My Vessel Name" });
 					r = command.ExecuteNonQuery ();
 				}
 
 				using (var command = connection.CreateCommand ()) {
 					command.CommandText = "INSERT INTO [Items] ([DetailName], [DetailValue]) VALUES (? ,?)";
 					command.Parameters.Add (new SqliteParameter (DbType.String) { Value = "Type" });
-					command.Parameters.Add (new SqliteParameter (DbType.String) { Value = "Sailboat, Powerboat, other" });
+					command.Parameters.Add (new SqliteParameter (DbType.String) { Value = "Sailboat, Powerboat, Other" });
 					r = command.ExecuteNonQuery ();
 				}
 
@@ -84,7 +84,7 @@ namespace Epirb.Core
 				using (var command = connection.CreateCommand ()) {
 					command.CommandText = "INSERT INTO [Items] ([DetailName], [DetailValue]) VALUES (? ,?)";
 					command.Parameters.Add (new SqliteParameter (DbType.String) { Value = "Color" });
-					command.Parameters.Add (new SqliteParameter (DbType.String) { Value = "Test Color" });
+					command.Parameters.Add (new SqliteParameter (DbType.String) { Value = "Vessel Color" });
 					r = command.ExecuteNonQuery ();
 				}
 
